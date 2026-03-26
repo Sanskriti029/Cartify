@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>E-commerce System</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+
+<body>
+    <header>
+        <nav>
+
+            <!-- LEFT: Logo -->
+            <div class="nav-left">
+                <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="currentColor"
+                    class="bi bi-cart-check" viewBox="0 0 16 16">
+                    <path
+                        d="M11.354 6.354a.5.5 0 0 0-.708-.708L8 8.293 6.854 7.146a.5.5 0 1 0-.708.708l1.5 1.5a.5.5 0 0 0 .708 0z" />
+                    <path
+                        d="M.5 1a.5.5 0 0 0 0 1h1.11l.401 1.607 1.498 7.985A.5.5 0 0 0 4 12h1a2 2 0 1 0 0 4 2 2 0 0 0 0-4h7a2 2 0 1 0 0 4 2 2 0 0 0 0-4h1a.5.5 0 0 0 .491-.408l1.5-8A.5.5 0 0 0 14.5 3H2.89l-.405-1.621A.5.5 0 0 0 2 1z" />
+                </svg>
+                <span class="logo-text">Cartify</span>
+            </div>
+
+            <!-- CENTER: Links -->
+            <div class="nav-center">
+                <a href="index.html">Home</a>
+                <a href="shop.html">Shop</a>
+                <a href="wishlist.html">Wishlist</a>
+                <a href="cart.html">Cart</a>
+            </div>
+
+            <!-- RIGHT: Search -->
+            <div class="nav-right">
+                <input type="text" placeholder="Search products...">
+            </div>
+
+        </nav>
+    </header>
+    <hr class="divider" style=" 
+  border: none;
+  height: 2px;
+  padding-bottom: 10px;
+  background-color: aliceblue;
+  margin: 0;
+">
+
+    <section class="shop">
+        <div class="shop-container"> <!-- NEW WRAPPER -->
+
+            <div class="sidebar">
+                <div class="search" style="background-color:#F3F4FA;">
+                    <input type="text" placeholder="Search products...">
+                </div>
+
+                <div class="filter">
+                    <h3>Category</h3>
+
+                    <label>
+                        <input type="checkbox" name="category" value="electronics"> Electronics
+                    </label><br>
+                    <label>
+                        <input type="checkbox" name="category" value="jewelery"> Jewellery
+                    </label><br>
+                    <label>
+                        <input type="checkbox" name="category" value="men's clothing"> Men's Clothing
+                    </label><br>
+                    <label>
+                        <input type="checkbox" name="category" value="women's clothing"> Women's Clothing
+                    </label><br>
+                      <label>
+                         <input type="checkbox" name="category" value="smartphones"> Smartphones
+                    </label><br>
+                      <label>
+                         <input type="checkbox" name="category" value="beauty-products"> Beauty Products
+                    </label><br>
+                </div>
+                <div class="price-filter">
+                    <h3>Price Range</h3>
+
+                    <input type="range" id="priceRange" min="0" max="20000" value="20000">
+
+                    <p>Max Price: ₹<span id="priceValue">500</span></p>
+                </div>
+            </div>
+
+
+            <div class="products"> <!-- WRAP PRODUCTS -->
+                <h1>Featured Product</h1>
+                <div class="featured-product" id="product-list">
+                    <p id="loading">Loading products...</p>
+                </div>
+    </section>
+    <!-- <script src="script.js"></script> -->
+    <script>
+    const productList = document.getElementById("product-list");
+const loading = document.getElementById("loading");
+
+const searchInput = document.querySelector("input[type='text']");
+const priceRange = document.getElementById("priceRange");
+const priceValue = document.getElementById("priceValue");
+const categoryInputs = document.querySelectorAll("input[name='category']");
+
+let allProducts = [];
+let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+// ✅ FETCH PRODUCTS (BOTH APIs)
+async function fetchProducts() {
+    try {
+        const [dummyRes, fakeRes] = await Promise.all([
+            fetch("https://dummyjson.com/products"),
+            fetch("https://fakestoreapi.com/products")
+        ]);
+
+        const dummyData = await dummyRes.json();
+        const fakeData = await fakeRes.json();
+
+        // ✅ Normalize DummyJSON
+        const dummyProducts = dummyData.products.map(p => ({
+            id: "d-" + p.id,
+            title: p.title,
+            price: p.price,
+            image: p.thumbnail,
+            category: p.category
+        }));
+
+        // ✅ Normalize FakeStore
+        const fakeProducts = fakeData.map(p => ({
+            id: "f-" + p.id,
+            title: p.title,
+            price: p.price,
+            image: p.image,
+            category: p.category
+        }));
+
+        // ✅ FIX: assign to global variable
+        allProducts = [...dummyProducts, ...fakeProducts];
+
+        displayProducts(allProducts);
+        loading.style.display = "none";
+
+    } catch (error) {
+        productList.innerHTML = "<p>Error loading products</p>";
+    }
+}
+
+// ✅ DISPLAY PRODUCTS
+function displayProducts(products) {
+    productList.innerHTML = "";
+
+    products.forEach(product => {
+        const card = document.createElement("div");
+        card.classList.add("product-card");
+
+        card.innerHTML = `
+            <img src="${product.image}" style="width:150px;height:150px;object-fit:contain;">
+            <h3>${product.title.substring(0, 25)}...</h3>
+            <p>₹${Math.round(product.price * 80)}</p>
+            <button class="cart-btn" style="padding: 3px ">Add To Cart</button>
+            <button class="wishlist-btn"  style="padding: 3px">❤️ Wishlist</button>
+        `;
+
+        // Cart button
+        card.querySelector(".cart-btn").addEventListener("click", () => {
+            addToCart(product);
+        });
+
+        // Wishlist button
+        card.querySelector(".wishlist-btn").addEventListener("click", () => {
+            addToWishlist(product);
+        });
+
+        productList.appendChild(card);
+    });
+}
+
+// ✅ ADD TO CART (no duplicates)
+function addToCart(product) {
+    if (!cart.find(item => item.id === product.id)) {
+        cart.push(product);
+        localStorage.setItem("cart", JSON.stringify(cart));
+        showToast("Added to cart!");
+    } else {
+        showToast("Already in cart!");
+    }
+}
+
+// ✅ ADD TO WISHLIST (no duplicates)
+function addToWishlist(product) {
+    let wishlist = JSON.parse(localStorage.getItem("wishlist")) || [];
+
+    if (!wishlist.find(item => item.id === product.id)) {
+        wishlist.push(product);
+        localStorage.setItem("wishlist", JSON.stringify(wishlist));
+        showToast("Added to wishlist ❤️");
+    } else {
+        showToast("Already in wishlist!");
+    }
+}
+
+// ✅ FILTER EVENTS
+searchInput.addEventListener("input", filterProducts);
+
+priceRange.addEventListener("input", () => {
+    priceValue.innerText = priceRange.value;
+    filterProducts();
+});
+
+categoryInputs.forEach(input => {
+    input.addEventListener("change", filterProducts);
+});
+
+// ✅ FILTER LOGIC
+function filterProducts() {
+    let filtered = [...allProducts];
+
+    const searchText = searchInput.value.toLowerCase();
+
+    // 🔍 Search
+    filtered = filtered.filter(p =>
+        p.title.toLowerCase().includes(searchText)
+    );
+
+    // 💰 Price
+    filtered = filtered.filter(p =>
+        (p.price * 80) <= priceRange.value
+    );
+
+    // 🏷️ Category
+    const selectedCategories = Array.from(categoryInputs)
+        .filter(i => i.checked)
+        .map(i => i.value);
+
+    if (selectedCategories.length > 0) {
+        filtered = filtered.filter(p =>
+            selectedCategories.includes(p.category)
+        );
+    }
+
+    displayProducts(filtered);
+}
+
+// ✅ TOAST
+function showToast(msg) {
+    const toast = document.createElement("div");
+    toast.innerText = msg;
+
+    toast.style.position = "fixed";
+    toast.style.bottom = "20px";
+    toast.style.right = "20px";
+    toast.style.background = "#10B981";
+    toast.style.color = "white";
+    toast.style.padding = "10px";
+    toast.style.borderRadius = "5px";
+
+    document.body.appendChild(toast);
+
+    setTimeout(() => toast.remove(), 2000);
+}
+
+// ✅ START
+fetchProducts();
+</script>
+    // <!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script> -->
+</body>
+
+</html>
