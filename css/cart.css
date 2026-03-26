@@ -1,0 +1,288 @@
+
+body {
+  background: #f9fafb;
+  margin: 0;
+  font-family: 'Poppins', sans-serif;
+}
+
+header {
+  background: hsl(231.77, 52.1%, 53.33%);
+  color: white;
+  text-align: center;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+/* Navbar */
+nav {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 15px;
+  gap: 20px;
+}
+
+nav a {
+  color: white;
+  text-decoration: none;
+  font-size: 16px;
+  font-weight: 500;
+  transition: 0.3s;
+  position: relative;
+}
+
+/* Hover underline animation */
+nav a::after {
+  content: "";
+  position: absolute;
+  width: 0%;
+  height: 2px;
+  left: 0;
+  bottom: -5px;
+  background: #22c55e;
+  transition: 0.3s;
+}
+
+nav a:hover::after {
+  width: 100%;
+}
+
+nav a:hover {
+  color: #22c55e;
+}
+
+/* Hero Section */
+.container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 40px;
+  color: white;
+
+  background: linear-gradient(
+    90deg,
+    hsl(232.62, 51.69%, 53.73%) 0%,
+    hsl(231.77, 52.1%, 53.33%)
+  );
+}
+
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+}
+
+
+thead {
+    background: #4F46E5;
+    color: white;
+}
+
+th, td {
+    padding: 15px;
+    text-align: center;
+}
+
+
+tbody tr:hover {
+    background: #f3f4f6;
+}
+
+
+td img {
+    width: 60px;
+    height: 60px;
+    object-fit: contain;
+}
+
+
+.qty-btn {
+    padding: 5px 10px;
+    margin: 0 5px;
+    border: none;
+    background: #4F46E5;
+    color: white;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.qty-btn:hover {
+    background: #4338ca;
+}
+
+
+.remove-btn {
+    background: #ef4444;
+    color: white;
+    padding: 6px 12px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.remove-btn:hover {
+    background: #dc2626;
+}
+
+
+.total-box {
+    width: 90%;
+    margin: 20px auto;
+    text-align: right;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+
+.checkout-btn {
+    display: block;
+    margin: 20px auto;
+    padding: 12px 30px;
+    background:#4F46E5;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.checkout-btn:hover {
+    background: #5a54bf;
+}
+.checkout-section {
+  width: 90%;
+  margin: 30px auto;
+  padding: 20px;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.checkout-section h2 {
+  margin-bottom: 15px;
+}
+
+#checkout-form {
+  display: grid;
+  gap: 15px;
+}
+
+#checkout-form input,
+#checkout-form select {
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 14px;
+}
+
+#checkout-form button {
+  background: #4F46E5;
+  color: white;
+  padding: 12px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+#checkout-form button:hover {
+  background: #5a54bf;
+}
+.checkout-section {
+  display: none;
+}
+@media (max-width: 600px) {
+    th, td {
+        font-size: 12px;
+        padding: 8px;
+    }
+
+    td img {
+        width: 40px;
+        height: 40px;
+    }
+}
+
+/* Tablet Devices (≤ 900px) */
+@media (max-width: 900px) {
+  .container {
+    flex-direction: column;
+    text-align: center;
+    padding: 20px;
+  }
+
+  nav {
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  .checkout-section {
+    width: 95%;
+  }
+}
+
+
+/* Mobile Devices (≤ 600px) */
+@media (max-width: 600px) {
+  header {
+    font-size: 14px;
+    padding: 10px;
+  }
+
+  nav {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  nav a {
+    font-size: 14px;
+  }
+
+  .container {
+    padding: 15px;
+  }
+
+  th, td {
+    font-size: 12px;
+    padding: 8px;
+  }
+
+  td img {
+    width: 40px;
+    height: 40px;
+  }
+
+  .total-box {
+    font-size: 16px;
+    text-align: center;
+  }
+
+  .checkout-btn {
+    width: 90%;
+    font-size: 14px;
+  }
+}
+
+
+/* Extra Small Devices (≤ 400px) */
+@media (max-width: 400px) {
+  nav a {
+    font-size: 12px;
+  }
+
+  .qty-btn {
+    padding: 3px 6px;
+    font-size: 12px;
+  }
+
+  .remove-btn {
+    padding: 4px 8px;
+    font-size: 12px;
+  }
+
+  .checkout-btn {
+    padding: 10px;
+  }
+}

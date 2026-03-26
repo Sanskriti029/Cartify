@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>E-commerce System</title>
+    <link rel="stylesheet" href="/css/styles.css">
+    <link rel="stylesheet" href="/css/wishlist.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+
+
+<body>
+    <header>
+  <nav>
+
+    <!-- LEFT: Logo -->
+    <div class="nav-left">
+      <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="currentColor" class="bi bi-cart-check" viewBox="0 0 16 16">
+        <path d="M11.354 6.354a.5.5 0 0 0-.708-.708L8 8.293 6.854 7.146a.5.5 0 1 0-.708.708l1.5 1.5a.5.5 0 0 0 .708 0z"/>
+        <path d="M.5 1a.5.5 0 0 0 0 1h1.11l.401 1.607 1.498 7.985A.5.5 0 0 0 4 12h1a2 2 0 1 0 0 4 2 2 0 0 0 0-4h7a2 2 0 1 0 0 4 2 2 0 0 0 0-4h1a.5.5 0 0 0 .491-.408l1.5-8A.5.5 0 0 0 14.5 3H2.89l-.405-1.621A.5.5 0 0 0 2 1z"/>
+      </svg>
+      <span class="logo-text">Cartify</span>
+    </div>
+
+    <!-- CENTER: Links -->
+   <div class="nav-center">
+      <a href="/pages/index.html">Home</a>
+      <a href="/pages/shop.html">Shop</a>
+      <a href="/pages/wishlist.html">Wishlist</a>
+      <a href="/pages/cart.html">Cart</a>
+    </div>
+
+    <!-- RIGHT: Search -->
+    <div class="nav-right">
+      <!-- <input type="text" placeholder="Search products..."> -->
+    </div>
+
+  </nav>
+</header>
+     <hr class="divider" style="  border: none;height: 2px;  padding-bottom: 10px; background-color: aliceblue; margin: 0;">
+     <div class="wishlist">
+        <h1>My Wishlist</h1>
+        <p> Your favourite items are saved here</p>
+          <div class="wishlisted-product" id="product-list">
+                    <p id="loading">Loading products...</p>
+                </div>
+<script>
+ const productList = document.getElementById("product-list");
+
+// Get wishlist from localStorage
+let wishlist = JSON.parse(localStorage.getItem("wishlist")) || [];
+let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+// Display Wishlist
+function displayWishlist() {
+    productList.innerHTML = "";
+
+    if (wishlist.length === 0) {
+        productList.innerHTML = "<p>Your wishlist is empty ❤️</p>";
+        return;
+    }
+
+    wishlist.forEach((item, index) => {
+        const card = document.createElement("div");
+        card.classList.add("product-card");
+
+        card.innerHTML = `
+            <img src="${item.image}" style="width:120px;height:120px;object-fit:contain;">
+            <h3>${item.title || item.name}</h3>
+            <p>₹${Math.round(item.price * 80)}</p>
+
+            <div style="display:flex;gap:10px;justify-content:center;">
+                <button onclick="moveToCart(${index})">Move to Cart</button>
+                <button onclick="removeFromWishlist(${index})" style="background:red;">Remove</button>
+            </div>
+        `;
+
+        productList.appendChild(card);
+    });
+}
+
+// Move to Cart
+function moveToCart(index) {
+    cart.push(wishlist[index]);
+    wishlist.splice(index, 1);
+
+    localStorage.setItem("cart", JSON.stringify(cart));
+    localStorage.setItem("wishlist", JSON.stringify(wishlist));
+
+    showToast("Moved to cart!");
+    displayWishlist();
+}
+
+// Remove item
+function removeFromWishlist(index) {
+    wishlist.splice(index, 1);
+    localStorage.setItem("wishlist", JSON.stringify(wishlist));
+
+    showToast("Removed from wishlist!");
+    displayWishlist();
+}
+
+// Toast
+function showToast(message) {
+    const toast = document.createElement("div");
+    toast.innerText = message;
+
+    toast.style.position = "fixed";
+    toast.style.bottom = "20px";
+    toast.style.right = "20px";
+    toast.style.background = "#10B981";
+    toast.style.color = "white";
+    toast.style.padding = "10px";
+    toast.style.borderRadius = "5px";
+
+    document.body.appendChild(toast);
+
+    setTimeout(() => toast.remove(), 2000);
+}
+
+// Run
+displayWishlist();
+    //  console.log()
+</script>
+
+<!-- <script src="script.js"></script> -->
+
+     </div>
+        
