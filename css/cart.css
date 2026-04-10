@@ -12,25 +12,49 @@ header {
   box-shadow: 0 4px 10px rgba(0,0,0,0.1);
 }
 
-/* Navbar */
 nav {
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
-  padding: 15px;
-  gap: 20px;
+  padding: 15px 40px;
 }
 
+/* LEFT (Logo) */
+.nav-left {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.logo-text {
+  font-size: 20px;
+}
+
+/* CENTER (Links) */
+.nav-center {
+  display: flex;
+  gap: 25px;
+}
+
+/* RIGHT (Search) */
+.nav-right input {
+  padding: 6px 10px;
+  border-radius: 6px;
+  border: none;
+  outline: none;
+}
+
+/* Links */
 nav a {
   color: white;
   text-decoration: none;
   font-size: 16px;
-  font-weight: 500;
-  transition: 0.3s;
   position: relative;
 }
 
-/* Hover underline animation */
+/* Hover underline */
 nav a::after {
   content: "";
   position: absolute;
@@ -285,4 +309,16 @@ td img {
   .checkout-btn {
     padding: 10px;
   }
+}
+#logout-btn, #login-link {
+    background-color: #dc3545;
+    color: white;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+#logout-btn:hover {
+    background-color: #c82333;
 }

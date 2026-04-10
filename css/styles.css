@@ -3,6 +3,11 @@ body {
   background: #f9fafb;
   margin: 0;
   font-family: 'Poppins', sans-serif;
+  font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            justify-content: center;
+             align-items: center; 
+            height: 100vh;
 }
  
  header {
@@ -169,6 +174,18 @@ nav a:hover {
 .product-card h3 {
   font-size: 16px;
   margin: 10px 0;
+}
+#logout-btn {
+    background-color: #dc3545;
+    color: white;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+#logout-btn:hover {
+    background-color: #c82333;
 }
 
 /* Button */
