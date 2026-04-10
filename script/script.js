@@ -1,38 +1,66 @@
-const productList = document.getElementById("product-list");
 const loading = document.getElementById("loading");
+const productList = document.getElementById("product-list");
 
-// Fetch both APIs
+const loginLink = document.getElementById("login-link");
+const logoutBtn = document.getElementById("logout-btn");
+
+const isLoggedIn = localStorage.getItem("isLoggedIn");
+const user = JSON.parse(localStorage.getItem("user"));
+
+/* ================= NAVBAR ================= */
+
+// Show username
+if (user && isLoggedIn === "true") {
+    loginLink.innerHTML = `Hi, ${user.username}`;
+}
+
+// Show/hide login/logout
+if (isLoggedIn === "true") {
+    loginLink.style.display = "none";
+    logoutBtn.style.display = "inline-block";
+} else {
+    loginLink.style.display = "inline-block";
+    logoutBtn.style.display = "none";
+}
+
+// Logout
+logoutBtn.addEventListener("click", function () {
+    localStorage.removeItem("isLoggedIn");
+    window.location.href = "/Task 6(form validation)/pages/login.html";
+});
+
+/* ================= PRODUCTS ================= */
+
 async function fetchProducts() {
     try {
-        const [dummyRes, fakeRes] = await Promise.all([
-            fetch("https://dummyjson.com/products"),
-            fetch("https://fakestoreapi.com/products")
-        ]);
+        const res = await fetch("https://dummyjson.com/products");
+        const data = await res.json();
 
-        const dummyData = await dummyRes.json();
-        const fakeData = await fakeRes.json();
-
-        // Normalize both APIs
-        const dummyProducts = dummyData.products.map(p => ({
-            id: "d-" + p.id,
+        const allProducts = data.products.map(p => ({
+            id: p.id,
             title: p.title,
             price: p.price,
-            image: p.thumbnail,
-            rating: p.rating
+            image: p.thumbnail
         }));
 
-        const fakeProducts = fakeData.map(p => ({
-            id: "f-" + p.id,
-            title: p.title,
-            price: p.price,
-            image: p.image,
-            rating: p.rating
-        }));
+        // 🔐 Limit products if not logged in
+        const visibleProducts =
+            isLoggedIn === "true"
+                ? allProducts
+                : allProducts.slice(0, 4);
 
-        // Merge both
-        const allProducts = [...dummyProducts, ...fakeProducts];
+        displayProducts(visibleProducts);
 
-        displayProducts(allProducts);
+        // Show login message
+        if (isLoggedIn !== "true") {
+            const msg = document.createElement("p");
+            msg.innerHTML = `
+                🔒 Login to view more products 
+                <a href="/Task 6(form validation)/pages/login.html">Login</a>
+            `;
+            productList.appendChild(msg);
+        }
+
         loading.style.display = "none";
 
     } catch (error) {
@@ -40,7 +68,6 @@ async function fetchProducts() {
     }
 }
 
-// Display products
 function displayProducts(products) {
     productList.innerHTML = "";
 
@@ -52,12 +79,15 @@ function displayProducts(products) {
             <img src="${product.image}" style="width:150px; height:150px; object-fit:contain;">
             <h3>${product.title.substring(0, 20)}...</h3>
             <p>₹${Math.round(product.price * 80)}</p>
-            <button>Add To Cart</button>
+            <button ${isLoggedIn !== "true" ? "disabled" : ""}>
+                ${isLoggedIn !== "true" ? "Login to Buy" : "Add To Cart"}
+            </button>
         `;
 
         productList.appendChild(card);
     });
 }
 
-// Run
+/* ================= RUN ================= */
+
 fetchProducts();
