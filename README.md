@@ -1,5 +1,5 @@
 # Cartify
-### 🛒 E-Commerce Web App (DummyJSON + FakeStore API)
+### 🛒 E-Commerce Web App (DummyJSON)
 
 A simple and responsive eCommerce web application built using **HTML, CSS, JavaScript and Bootstrap**, integrating products from multiple APIs. This project demonstrates product listing, filtering, cart management, wishlist, and checkout functionality.
 
@@ -12,7 +12,6 @@ A simple and responsive eCommerce web application built using **HTML, CSS, JavaS
 * Fetches products from:
 
   * DummyJSON API
-  * Fake Store API
 * Combines and displays products in a unified UI
 
 ### 🔍 Search & Filters
