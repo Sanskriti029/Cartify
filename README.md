@@ -19,7 +19,6 @@ A simple and responsive eCommerce web application built using **HTML, CSS, JavaS
 
 * Search products by title
 * Filter by:
-
   * Price range
   * Category
 
@@ -49,6 +48,14 @@ A simple and responsive eCommerce web application built using **HTML, CSS, JavaS
   * Add to cart
   * Add to wishlist
   * Order placed
+### 🔔 Authentication
+
+  * User login and registration
+  * Form validation for:
+     - Email format validation
+     - Password strength requirements
+     - Required field validation
+
 
 ---
 
@@ -67,18 +74,12 @@ A simple and responsive eCommerce web application built using **HTML, CSS, JavaS
 ### 1. DummyJSON
 
 * Products with thumbnails, categories, and pricing
-
-### 2. Fake Store API
-
-* Additional product data for merging
-
 ---
 
 ## 🔧 How It Works
 
 1. Fetch data from both APIs using `Promise.all()`
 2. Normalize product structure:
-
    * id
    * title
    * price
@@ -120,11 +121,14 @@ cd Cartify
 │    │── cart.html
 │    │── shop.html
 │    │── wishlist.html
-│ 
+│    │── login.html
+│    │── register.html
+│    │── wishlist.html
 │── css
 │    │── styles.css
 │    │── cart.css
 │    │── wishlist.css
+│    │── login.css
 │ 
 │── script
 │   │── script.js
@@ -145,8 +149,6 @@ cd Cartify
 ---
 
 ## 🚀 Future Improvements
-
-* 🔐 User authentication (login/signup)
 * 💳 Payment integration (Stripe/Razorpay)
 * 📦 Order history page
 * 🔄 Pagination / infinite scroll
@@ -158,7 +160,6 @@ cd Cartify
 ## 🙌 Acknowledgements
 
 * DummyJSON API
-* Fake Store API
 
 ---
 
